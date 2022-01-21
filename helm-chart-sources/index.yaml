@@ -1,0 +1,13 @@
+apiVersion: v1
+entries:
+  simple-web:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2022-01-21T12:35:51.034769+02:00
+    description: A Helm chart for Kubernetes
+    digest: c24257895f66dc1957e07875c8eaa6c14eda7c5977759e7d3a5cbc1acbe448a6
+    name: simple-web
+    urls:
+    - https://github.com/eyalle/simple-web/simple-web-0.1.0.tgz
+    version: 0.1.0
+generated: 2022-01-21T12:35:51.0334+02:00
