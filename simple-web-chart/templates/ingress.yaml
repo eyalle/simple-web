@@ -1,5 +1,6 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "simple-web-chart.fullname" . -}}
+{{- $svcPort := include ".Values.service.port" . -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
