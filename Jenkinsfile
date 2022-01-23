@@ -24,7 +24,12 @@ node {
 
         stage ('deploy helm chart'){
             dir("${env.WORKSPACE}/${CHART_DIR}"){
-                def commands = "helm install ${SERVICE_NAME} . -n ${NAMESPACE}"
+                def commands =
+                """az login -i
+                helm install ${SERVICE_NAME} . -n ${NAMESPACE}
+                az aks get-credentials -n devops-interview-aks -g  devops-interview-rg
+                export KUBECONFIG=~/.kube/config
+                kubelogin convert-kubeconfig -l msi"""
                 // kubectl get pods -n "${NAMESPACE}"
                 // export POD_NAME=$(sudo kubectl get pods --namespace ${NAMESPACE} -l "app.kubernetes.io/name=${CHART_NAME},app.kubernetes.io/instance=${SERVICE_NAME}" -o jsonpath="{.items[0].metadata.name}")
                 // kubectl describe pod \$POD_NAME -n ${NAMESPACE}
