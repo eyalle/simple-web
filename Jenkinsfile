@@ -22,14 +22,21 @@ node {
             sh "helm lint ${CHART_DIR}"
         }
 
+        stage ('clean up previous deployments'){
+            sh "kubectl delete deployment \$(kubectl get deployments -n ${NAMESPACE} | awk 'FNR==2{print \$1}) -n ${NAMESPACE}"
+        }
         stage ('deploy helm chart'){
             dir("${env.WORKSPACE}/${CHART_DIR}"){
                 def commands =
                 """az login -i
-                az aks get-credentials -n devops-interview-aks -g  devops-interview-rg
+                az aks get-credentials -n devops-interview-aks -g  devops-interview-rg || true
                 kubelogin convert-kubeconfig -l msi
-                helm install ${SERVICE_NAME} . -n ${NAMESPACE}""".stripIndent().stripMargin()
-                // kubectl get pods -n "${NAMESPACE}"
+                helm install ${SERVICE_NAME} . -n ${NAMESPACE}
+                # kubectl get pods -n ${NAMESPACE}
+                # kubectl get services ${FULL_NAME} -n eyal
+                export SERVICE_IP=\$(sudo kubectl get svc --namespace eyal ${FULL_NAME} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+                export SERVICE_PORT=\$(sudo kubectl get svc --namespace eyal ${FULL_NAME} -o jsonpath='{.spec.ports[0].port}')
+                curl http://\$SERVICE_IP:\$SERVICE_PORT""".stripIndent().stripMargin()
                 // export POD_NAME=$(sudo kubectl get pods --namespace ${NAMESPACE} -l "app.kubernetes.io/name=${CHART_NAME},app.kubernetes.io/instance=${SERVICE_NAME}" -o jsonpath="{.items[0].metadata.name}")
                 // kubectl describe pod \$POD_NAME -n ${NAMESPACE}
                 // kubectl get deployments -n ${NAMESPACE}
