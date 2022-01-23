@@ -14,7 +14,7 @@ node {
         stage ('verify helm chart'){
             dir("${env.WORKSPACE}/${CHART_DIR}"){
                 sh "pwd"
-                sh "sudo helm version"
+                sh "whoami"
                 // sh 'echo "stopping docker containers"'
                 // sh 'docker ps -aq | xargs -r docker stop;'
                 // sh 'echo "killing docker containers"'
