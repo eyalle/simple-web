@@ -23,7 +23,7 @@ node {
         }
 
         stage ('clean up previous deployments'){
-            sh "kubectl delete deployment \$(kubectl get deployments -n ${NAMESPACE} | awk 'FNR==2{print \$1}) -n ${NAMESPACE}"
+            sh "kubectl delete deployment \$(kubectl get deployments -n ${NAMESPACE} | awk 'FNR==2{print \$1}') -n ${NAMESPACE}"
         }
         stage ('deploy helm chart'){
             dir("${env.WORKSPACE}/${CHART_DIR}"){
