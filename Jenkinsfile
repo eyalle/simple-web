@@ -27,7 +27,7 @@ node {
                 def commands =
                 """az login -i
                 az aks get-credentials -n devops-interview-aks -g  devops-interview-rg
-                # export KUBECONFIG=~/.kube/config
+                export KUBECONFIG=/var/lib/jenkins/.kube/config
                 kubelogin convert-kubeconfig -l msi
                 helm install ${SERVICE_NAME} . -n ${NAMESPACE}""".stripIndent().stripMargin()
                 // kubectl get pods -n "${NAMESPACE}"
