@@ -26,10 +26,10 @@ node {
             dir("${env.WORKSPACE}/${CHART_DIR}"){
                 def commands =
                 """az login -i
-                helm install ${SERVICE_NAME} . -n ${NAMESPACE}
                 az aks get-credentials -n devops-interview-aks -g  devops-interview-rg
                 export KUBECONFIG=~/.kube/config
-                kubelogin convert-kubeconfig -l msi""".stripIndent()
+                kubelogin convert-kubeconfig -l msi
+                helm install ${SERVICE_NAME} . -n ${NAMESPACE}""".stripIndent().stripMargin()
                 // kubectl get pods -n "${NAMESPACE}"
                 // export POD_NAME=$(sudo kubectl get pods --namespace ${NAMESPACE} -l "app.kubernetes.io/name=${CHART_NAME},app.kubernetes.io/instance=${SERVICE_NAME}" -o jsonpath="{.items[0].metadata.name}")
                 // kubectl describe pod \$POD_NAME -n ${NAMESPACE}
