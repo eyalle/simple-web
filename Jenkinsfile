@@ -26,7 +26,7 @@ node {
             sh """
             kubectl delete deployment --all -n ${NAMESPACE} || true
             kubectl delete services  --all -n ${NAMESPACE} || true
-            helm uninstall ${SERVICE_NAME} -n ${NAMESPACE}
+            helm uninstall ${SERVICE_NAME} -n ${NAMESPACE} || true
             """
         }
         stage ('deploy helm chart'){
