@@ -37,8 +37,8 @@ node {
                 kubelogin convert-kubeconfig -l msi
                 helm install ${SERVICE_NAME} . -n ${NAMESPACE}
                 echo "will wait for external IP availability now.."
-                external_ip=""; while [ -z \$external_ip ]; do echo "Waiting for end point..."; external_ip=\$(kubectl get svc ${FULL_NAME} -n ${NAMESPACE} --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}"); [ -z "\$external_ip" ] && sleep 10; done; echo "End point ready-" && echo \$external_ip; export endpoint=\$external_ip'
-                export SERVICE_IP=\$(kubectl get svc -n ${NAMESPACE} ${FULL_NAME} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+                external_ip=""; while [ -z \$external_ip ]; do echo "Waiting for end point..."; external_ip=\$(kubectl get svc ${FULL_NAME} -n ${NAMESPACE} --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}"); [ -z "\$external_ip" ] && sleep 10; done; echo "End point ready-" && echo \$external_ip; export SERVICE_IP=\$external_ip
+                #export SERVICE_IP=\$(kubectl get svc -n ${NAMESPACE} ${FULL_NAME} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
                 export SERVICE_PORT=\$(kubectl get svc -n ${NAMESPACE} ${FULL_NAME} -o jsonpath='{.spec.ports[0].port}')
                 curl http://\$SERVICE_IP:\$SERVICE_PORT""".stripIndent().stripMargin()
 
