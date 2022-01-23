@@ -1,5 +1,11 @@
 #!groovy
-def CHART_DIR = "simple-web/simple-web-chart"
+def CHART_NAME = "simple-web-chart"
+def CHART_DIR = "simple-web/${CHART_NAME}"
+def NAMESPACE = "eyal"
+def SERVICE_NAME = "testjenkins"
+def FULL_NAME = "${SERVICE_NAME}-${CHART_NAME}"
+
+
 node {
     // parameters {
     //     string(defaultValue: "initial_docker_image_test", description: 'this is the docker image name', name: 'dockerimagename')
@@ -15,6 +21,14 @@ node {
             dir("${env.WORKSPACE}/${CHART_DIR}"){
                 sh "pwd"
                 sh "helm version"
+                sh """
+                    helm install ${SERVICE_NAME} . -n eyal
+                    kubectl get pods -n eyal
+                    export POD_NAME=$(sudo kubectl get pods --namespace ${NAMESPACE} -l "app.kubernetes.io/name=${CHART_NAME},app.kubernetes.io/instance=${SERVICE_NAME}" -o jsonpath="{.items[0].metadata.name}")
+                    kubectl describe pod \$POD_NAME -n eyal
+                    kubectl get deployments -n eyal
+                    kubectl expose deployment ${FULL_NAME} --type=LoadBalancer -n eyal --name=${NAMESPACE}
+                """
                 // sh 'echo "stopping docker containers"'
                 // sh 'docker ps -aq | xargs -r docker stop;'
                 // sh 'echo "killing docker containers"'
