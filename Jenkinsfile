@@ -1,13 +1,11 @@
 #!groovy
-
-pipeline{
+def CHART_DIR = "simple-web/simple-web-chart"
+node {
     // parameters {
     //     string(defaultValue: "initial_docker_image_test", description: 'this is the docker image name', name: 'dockerimagename')
     // }
-    CHART_DIR = "simple-web-chart"
 
-    agent any
-    stages {
+    // stages {
         stage ('checkout'){
             steps{
                 sh 'echo "checking out repo"'
@@ -54,26 +52,26 @@ pipeline{
         //         }
         //     }
         // }
-    }
+    // }
 
-    post {
-        always {
-            echo 'I will always say Hello again!'
-            // sg.addRecipient(javax.mail.Message.RecipientType.TO, new javax.mail.internet.InternetAddress("eyallei666@gmail.com"))
-        }
+    // post {
+    //     always {
+    //         echo 'I will always say Hello again!'
+    //         // sg.addRecipient(javax.mail.Message.RecipientType.TO, new javax.mail.internet.InternetAddress("eyallei666@gmail.com"))
+    //     }
 
-        success{
-            echo "Job Successful!"
-            emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} SUCCESSFUL\n More info at: ${env.BUILD_URL}",
-                recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
-                subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
-        }
+    //     success{
+    //         echo "Job Successful!"
+    //         emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} SUCCESSFUL\n More info at: ${env.BUILD_URL}",
+    //             recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
+    //             subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+    //     }
 
-        failure{
-            echo "Job FAILED :("
-            emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} FAILED! \n More info at: ${env.BUILD_URL}",
-                recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
-                subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
-        }
-    }
+    //     failure{
+    //         echo "Job FAILED :("
+    //         emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} FAILED! \n More info at: ${env.BUILD_URL}",
+    //             recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
+    //             subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+    //     }
+    // }
 }
