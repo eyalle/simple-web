@@ -25,12 +25,12 @@ node {
         stage ('deploy helm chart'){
             dir("${env.WORKSPACE}/${CHART_DIR}"){
                 sh """
-                    helm install ${SERVICE_NAME} . -n eyal
-                    kubectl get pods -n eyal
+                    helm install ${SERVICE_NAME} . -n ${NAMESPACE}
+                    kubectl get pods -n ${NAMESPACE}
                     export POD_NAME=$(sudo kubectl get pods --namespace ${NAMESPACE} -l "app.kubernetes.io/name=${CHART_NAME},app.kubernetes.io/instance=${SERVICE_NAME}" -o jsonpath="{.items[0].metadata.name}")
-                    kubectl describe pod \$POD_NAME -n eyal
-                    kubectl get deployments -n eyal
-                    kubectl expose deployment ${FULL_NAME} --type=LoadBalancer -n eyal --name=${NAMESPACE}
+                    kubectl describe pod \$POD_NAME -n ${NAMESPACE}
+                    kubectl get deployments -n ${NAMESPACE}
+                    kubectl expose deployment ${FULL_NAME} --type=LoadBalancer -n ${NAMESPACE} --name=${NAMESPACE}
                 """
             }
         }
