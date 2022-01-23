@@ -18,9 +18,12 @@ node {
         }
 
         stage ('verify helm chart'){
+            sh "pwd"
+            sh "helm lint ${CHART_DIR}"
+        }
+
+        stage ('deploy helm chart'){
             dir("${env.WORKSPACE}/${CHART_DIR}"){
-                sh "pwd"
-                sh "helm version"
                 sh """
                     helm install ${SERVICE_NAME} . -n eyal
                     kubectl get pods -n eyal
@@ -29,13 +32,6 @@ node {
                     kubectl get deployments -n eyal
                     kubectl expose deployment ${FULL_NAME} --type=LoadBalancer -n eyal --name=${NAMESPACE}
                 """
-                // sh 'echo "stopping docker containers"'
-                // sh 'docker ps -aq | xargs -r docker stop;'
-                // sh 'echo "killing docker containers"'
-                // sh 'docker ps -aq | xargs -r docker rm;'
-                // sh 'echo "building docker image"'
-                // sh 'docker build . -t "initial_docker_image_test"'
-                // docker.build("${dockerimagename}" + ":$BUILD_NUMBER", ".")
             }
         }
 
