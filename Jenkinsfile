@@ -34,10 +34,10 @@ node {
                 helm install ${SERVICE_NAME} . -n ${NAMESPACE}
                 # kubectl get pods -n ${NAMESPACE}
                 # kubectl get services ${FULL_NAME} -n eyal
-                export SERVICE_IP=\$(sudo kubectl get svc --namespace eyal ${FULL_NAME} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-                export SERVICE_PORT=\$(sudo kubectl get svc --namespace eyal ${FULL_NAME} -o jsonpath='{.spec.ports[0].port}')
+                export SERVICE_IP=\$(kubectl get svc --namespace eyal ${FULL_NAME} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+                export SERVICE_PORT=\$(kubectl get svc --namespace eyal ${FULL_NAME} -o jsonpath='{.spec.ports[0].port}')
                 curl http://\$SERVICE_IP:\$SERVICE_PORT""".stripIndent().stripMargin()
-                // export POD_NAME=$(sudo kubectl get pods --namespace ${NAMESPACE} -l "app.kubernetes.io/name=${CHART_NAME},app.kubernetes.io/instance=${SERVICE_NAME}" -o jsonpath="{.items[0].metadata.name}")
+                // export POD_NAME=$(kubectl get pods --namespace ${NAMESPACE} -l "app.kubernetes.io/name=${CHART_NAME},app.kubernetes.io/instance=${SERVICE_NAME}" -o jsonpath="{.items[0].metadata.name}")
                 // kubectl describe pod \$POD_NAME -n ${NAMESPACE}
                 // kubectl get deployments -n ${NAMESPACE}
                 // kubectl expose deployment ${FULL_NAME} --type=LoadBalancer -n ${NAMESPACE} --name=${NAMESPACE}"""
