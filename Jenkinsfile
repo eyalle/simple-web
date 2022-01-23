@@ -33,7 +33,7 @@ node {
                 kubectl expose deployment ${FULL_NAME} --type=LoadBalancer -n ${NAMESPACE} --name=${NAMESPACE}
                 """
 
-                print(cmd)
+                print(commands)
                 // sh "${cmd}"
             }
         }
