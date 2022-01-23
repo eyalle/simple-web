@@ -29,7 +29,7 @@ node {
             dir("${env.WORKSPACE}/${CHART_DIR}"){
                 def commands =
                 """az login -i
-                az aks get-credentials -n devops-interview-aks -g  devops-interview-rg || true
+                az aks get-credentials -n devops-interview-aks -g devops-interview-rg || true
                 kubelogin convert-kubeconfig -l msi
                 helm install ${SERVICE_NAME} . -n ${NAMESPACE}
                 # kubectl get pods -n ${NAMESPACE}
