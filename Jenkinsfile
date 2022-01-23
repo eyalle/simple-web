@@ -4,7 +4,7 @@ pipeline{
     // parameters {
     //     string(defaultValue: "initial_docker_image_test", description: 'this is the docker image name', name: 'dockerimagename')
     // }
-    def CHART_DIR = "simple-web-chart"
+    CHART_DIR = "simple-web-chart"
 
     agent any
     stages {
