@@ -7,25 +7,21 @@ node {
 
     // stages {
         stage ('checkout'){
-            steps{
-                sh 'echo "checking out repo"'
-                checkout scm
-            }
+            sh 'echo "checking out repo"'
+            checkout scm
         }
 
         stage ('verify helm chart'){
-            steps{
-                dir("${env.WORKSPACE}/${CHART_DIR}"){
-                    sh "pwd"
-                    sh "sudo helm version"
-                    // sh 'echo "stopping docker containers"'
-                    // sh 'docker ps -aq | xargs -r docker stop;'
-                    // sh 'echo "killing docker containers"'
-                    // sh 'docker ps -aq | xargs -r docker rm;'
-                    // sh 'echo "building docker image"'
-                    // sh 'docker build . -t "initial_docker_image_test"'
-                    // docker.build("${dockerimagename}" + ":$BUILD_NUMBER", ".")
-                }
+            dir("${env.WORKSPACE}/${CHART_DIR}"){
+                sh "pwd"
+                sh "sudo helm version"
+                // sh 'echo "stopping docker containers"'
+                // sh 'docker ps -aq | xargs -r docker stop;'
+                // sh 'echo "killing docker containers"'
+                // sh 'docker ps -aq | xargs -r docker rm;'
+                // sh 'echo "building docker image"'
+                // sh 'docker build . -t "initial_docker_image_test"'
+                // docker.build("${dockerimagename}" + ":$BUILD_NUMBER", ".")
             }
         }
 
