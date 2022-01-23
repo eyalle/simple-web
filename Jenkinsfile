@@ -23,7 +23,10 @@ node {
         }
 
         stage ('clean up previous deployments'){
-            sh "kubectl delete deployment \$(kubectl get deployments -n ${NAMESPACE} | awk 'FNR==2{print \$1}') -n ${NAMESPACE} || true"
+            sh """
+            kubectl delete deployment --all -n ${NAMESPACE} || true
+            kubectl delete services  --all -n ${NAMESPACE} || true
+            """
         }
         stage ('deploy helm chart'){
             dir("${env.WORKSPACE}/${CHART_DIR}"){
@@ -32,15 +35,9 @@ node {
                 az aks get-credentials -n devops-interview-aks -g devops-interview-rg || true
                 kubelogin convert-kubeconfig -l msi
                 helm install ${SERVICE_NAME} . -n ${NAMESPACE}
-                # kubectl get pods -n ${NAMESPACE}
-                # kubectl get services ${FULL_NAME} -n eyal
                 export SERVICE_IP=\$(kubectl get svc --namespace eyal ${FULL_NAME} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
                 export SERVICE_PORT=\$(kubectl get svc --namespace eyal ${FULL_NAME} -o jsonpath='{.spec.ports[0].port}')
                 curl http://\$SERVICE_IP:\$SERVICE_PORT""".stripIndent().stripMargin()
-                // export POD_NAME=$(kubectl get pods --namespace ${NAMESPACE} -l "app.kubernetes.io/name=${CHART_NAME},app.kubernetes.io/instance=${SERVICE_NAME}" -o jsonpath="{.items[0].metadata.name}")
-                // kubectl describe pod \$POD_NAME -n ${NAMESPACE}
-                // kubectl get deployments -n ${NAMESPACE}
-                // kubectl expose deployment ${FULL_NAME} --type=LoadBalancer -n ${NAMESPACE} --name=${NAMESPACE}"""
 
                 print(commands)
                 sh "${commands}"
