@@ -1,6 +1,6 @@
 #!groovy
 def CHART_NAME = "simple-web-chart"
-def CHART_DIR = "simple-web/${CHART_NAME}"
+def CHART_DIR = "${CHART_NAME}"
 def NAMESPACE = "eyal"
 def SERVICE_NAME = "testjenkins"
 def FULL_NAME = "${SERVICE_NAME}-${CHART_NAME}"
