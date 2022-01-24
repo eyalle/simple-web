@@ -48,6 +48,7 @@ function deloy_chart() {
         echo "$fqdn is serving as expected!"
     else
         echo "Err! $fqdn returned $httpCode"
+    fi
 }
 
 #############################################################
