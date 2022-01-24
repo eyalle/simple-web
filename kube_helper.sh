@@ -8,11 +8,11 @@ FULL_NAME="${SERVICE_NAME}-${CHART_NAME}"
 
 #################### Function Definition ####################
 function login_config() {
-    set -ex
+    set +ex
     az login -i
     az aks get-credentials -n devops-interview-aks -g devops-interview-rg || true
     kubelogin convert-kubeconfig -l msi
-    set +ex
+    set -ex
 }
 
 function lint_chart() {
