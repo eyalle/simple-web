@@ -33,7 +33,7 @@ function deloy_chart() {
     helm install $SERVICE_NAME $CHART_DIR -n $NAMESPACE
     echo "will wait for external IP availability now.."
     external_ip="";
-    while [ -z \$external_ip ];
+    while [ -z $external_ip ];
     do
         echo "Waiting for end point...";
         external_ip=$(kubectl get svc $FULL_NAME -n $NAMESPACE --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}");
