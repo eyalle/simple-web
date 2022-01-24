@@ -30,7 +30,7 @@ node {
         //     """
         // }
         stage ('deploy helm chart'){
-            sh "CHART_DIR=${env.WORKSPACE}/${CHART_DIR} kube_helper"
+            sh "CHART_DIR=${env.WORKSPACE}/${CHART_DIR} ./kube_helper.sh"
             // dir("${env.WORKSPACE}/${CHART_DIR}"){
             //     def commands =
             //     """az login -i
