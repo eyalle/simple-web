@@ -42,7 +42,12 @@ function deloy_chart() {
     echo "End point ready! $external_ip"
     export SERVICE_IP=$external_ip
     export SERVICE_PORT=$(kubectl get svc -n $NAMESPACE $FULL_NAME -o jsonpath='{.spec.ports[0].port}')
-    curl http://$SERVICE_IP:$SERVICE_PORT
+    fqdn="http://$SERVICE_IP:$SERVICE_PORT"
+    httpCode=curl -s -o /dev/null -w '%{http_code}' $fqdn
+    if [ "$httpCode" == 200 ]; then
+        echo "$fqdn is serving as expected!"
+    else
+        echo "Err! $fqdn returned $httpCode"
 }
 
 #############################################################

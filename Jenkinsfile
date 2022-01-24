@@ -19,6 +19,7 @@ node {
     //     """
     // }
     stage ('deploy helm chart'){
+        def CHART_NAME = "simple-web-chart"
         def CHART_DIR = "${env.WORKSPACE}/${CHART_NAME}"
         sh "CHART_DIR=${CHART_DIR} ./kube_helper.sh"
     }
