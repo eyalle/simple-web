@@ -3,8 +3,9 @@
 ## What it does
 
 Creates and deploys the helm chart for:
-Image: simple-web
-Registry: acrinterview.azurecr.io
+
+- Image: `simple-web`
+- Registry: `acrinterview.azurecr.io`
 
 ## What's missing
 
